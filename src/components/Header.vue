@@ -1,4 +1,5 @@
 <script setup>
+import router from '@/router';
 import { logout } from '@/services/accountSerivce';
 import { useAccountStore } from '@/stores/account';
 //로그아웃
@@ -13,16 +14,17 @@ const logoutAccount = async () => {
     return;
   }
   account.setLoggedIn(false);
+  router.push('/');
   return;
 };
 </script>
 
 <template>
   <header>
-    <div class="navbar navbar-dark bg-dark text-white shadow-sm">
+    <div class="navbar navbar-dark text-white shadow-sm">
       <div class="container">
         <RouterLink to="/" class="navbar-brand">
-          <strong>Gallery</strong>
+          <strong>Mollang Shop</strong>
         </RouterLink>
         <div class="menus d-flex gap-3">
           <template v-if="account.state.loggedIn">
@@ -48,6 +50,9 @@ header {
       color: #fff;
       text-decoration: none;
     }
+  }
+  .navbar {
+    background-color: lightpink;
   }
 }
 </style>

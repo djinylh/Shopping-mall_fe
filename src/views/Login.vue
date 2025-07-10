@@ -57,10 +57,14 @@ const submit = async () => {
           />
           <label for="loginPw">패스워드</label>
         </div>
-        <button class="w-100 h6 btn py-3 btn-primary">로그인</button>
+        <button id="bt" class="w-100 h6 btn py-3">로그인</button>
       </form>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.w-100 {
+  background-color:mistyrose;
+}
+</style>

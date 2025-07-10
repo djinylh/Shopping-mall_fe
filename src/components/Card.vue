@@ -1,9 +1,21 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { addItem } from '@/services/CartService';
 import { useAccountStore } from '@/stores/account';
+import { routeLocationKey, useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const account = useAccountStore();
+
+let luvOn = ref(false);
+
+const luvbutton = () => {
+  luvOn.value = !luvOn.value;
+};
+
+const onImg = '/src/imgs/free-icon-hearts-138533.png';
+const offImg = '/src/imgs/free-icon-hearts-138406.png';
 
 const props = defineProps({
   item: {
@@ -29,15 +41,17 @@ const put = async () => {
     const res = await addItem(props.item.id);
     if (res === undefined || res.status !== 200) {
       return;
+    } else if (
+      confirm('장바구니에 상품을 담았습니다. 장바구니로 이동하겠습니까?')
+    ) {
+      router.push({
+        path: '/cart',
+      });
     }
+
     console.log('카트 담기 성공');
   }
 };
-
-// const love = ref(true);
-// const toggle = () => {
-//   love != love;
-// };
 </script>
 <template>
   <div class="card shadow-sm">
@@ -65,6 +79,9 @@ const put = async () => {
             src="/src/imgs/pngtree-cart-icon-for-your-project-png-image_1904818.png"
           />
         </button>
+        <div>
+          <img class="luv" @click="luvbutton" :src="luvOn ? onImg : offImg" />
+        </div>
         <!-- <div class="rrr" @click="toggle" v-if="love">
           <img class="lovef" src="/src/imgs/free-icon-hearts-138406.png" />
         </div>
@@ -115,6 +132,9 @@ const put = async () => {
 .card-text {
   font-size: 17px;
 }
-
-
+.luv {
+  width: 30px;
+  margin-top: 5px;
+  margin-left: -3px;
+}
 </style>

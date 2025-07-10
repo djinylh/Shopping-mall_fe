@@ -1,18 +1,20 @@
 import axios from 'axios';
 axios.defaults.baseURL = '/api/v1';
 
+const path = '/cart';
+
 export const addItem = (itemId) => {
-  return axios.post('/cart', { itemId }).catch((e) => e.response);
+  return axios.post(path, { itemId }).catch((e) => e.response);
 };
 
 export const getItems = () => {
-  return axios.get('/cart').catch((e) => e.response);
+  return axios.get(path).catch((e) => e.response);
 };
 
-export const remove = (params) => {
-  return axios
-    .delete('/cart', {
-      params
-    })
-    .catch((e) => e.response);
+export const removeItem = (cartId) => {
+  return axios.delete(`${path}/${cartId}`).catch((e) => e.response);
+};
+
+export const removeAll = () => {
+  return axios.delete(path).catch((e) => e.response);
 };

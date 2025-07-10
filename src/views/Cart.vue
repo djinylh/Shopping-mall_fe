@@ -1,7 +1,6 @@
 <script setup>
 import { reactive, onMounted } from 'vue';
-import { getItems } from '@/services/CartService';
-import { remove } from '@/services/CartService';
+import { getItems, removeItem, removeAll } from '@/services/CartService';
 
 const state = reactive({
   items: [],
@@ -11,30 +10,33 @@ const load = async () => {
   const res = await getItems();
 
   console.log(res.data); // 넘어오는지 확인용
-
   if (res.status === 200) {
     state.items = res.data;
   }
+  return;
 };
-
-const removed = async (itemId) => {
-  if (confirm('상품을 삭제하시겠습니까?')) {
-    const params = { itemId };
-    const res = await remove(params);
-    console.log('삭제 요청 itemId:', params);
-    console.log(res);
-    if (res.status === 200) {
-      window.alert('선택하신 장바구니의 상품을 삭제했습니다');
-      load();
-    } else {
-      return;
-    }
+const removed = async (cartId) => {
+  const res = await removeItem(cartId);
+  if (res === undefined || res.status !== 200) {
+    return;
   }
+  load();
+  //다시 리로딩
+  //or
+  //방금 삭제한 객체만 state.items에서 삭제한다.
 };
 
 onMounted(() => {
   load();
 });
+
+const clear = async () => {
+  const res = await removeAll();
+  if (res === undefined || res.status !== 200) {
+    return;
+  }
+  state.items = [];
+};
 </script>
 
 <template>
@@ -58,13 +60,14 @@ onMounted(() => {
             </span>
             <span
               class="remove float-end"
-              @click="removed(item.itemId)"
+              @click="removed(item.id)"
               title="삭제"
               >&times;</span
             >
           </li>
         </ul>
-        <div class="act">
+        <div class="act d-flex justify-content-center">
+          <button @click="clear" class="btn">장바구니 비우기</button>
           <RouterLink to="/order" class="btn">주문하기</RouterLink>
         </div>
       </template>
@@ -94,7 +97,7 @@ onMounted(() => {
       margin-left: 25px;
     }
     .price {
-      margin-left: 50px;
+      margin-left: 20px;
     }
     .remove {
       cursor: pointer;
@@ -108,6 +111,15 @@ onMounted(() => {
     margin: 0 auto;
     padding: 30px 50px;
     font-size: 20px;
+    background-color: mistyrose;
+    color: #fff;
+    font-weight: 600;
+    transition-duration: 0.2s;
+
+    &:hover {
+      opacity: 60%;
+      color: brown;
+    }
   }
 }
 </style>

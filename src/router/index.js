@@ -24,8 +24,15 @@ const router = createRouter({
       path: '/order',
       component: () => import('@/views/OrderForm.vue'),
     },
+    {
+      path: '/orders',
+      component: () => import('@/views/Orders.vue'),
+    },
+    {
+      path: '/orders/:id',
+      component: () => import('@/views/OrderDetail.vue'),
+    },
   ],
 });
-
 
 export default router;

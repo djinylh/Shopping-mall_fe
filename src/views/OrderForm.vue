@@ -32,6 +32,19 @@ const submit = async () => {
   }
   state.form.itemIds = state.items.map((item) => item.itemId);
   const res = await addOrder(state.form);
+  if (res === undefined || res.status !== 200) {
+    alert('주문 실패');
+    return;
+  }
+  const message = [' 주문이 완료 되었습니다.'];
+  if (state.form.payment === 'bank') {
+    const price = computedTotalPrice.value.toLocaleString();
+    message.push(
+      `한국은행 123-456-787 계좌로 ${price}원 입금해주시기 바랍니다`
+    );
+  }
+  alert(message.join('\n'));
+  await router.push('/');
 };
 
 const computedTotalPrice = computed(() => {

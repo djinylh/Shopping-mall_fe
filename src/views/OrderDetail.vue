@@ -25,6 +25,7 @@ onMounted(async () => {
     return;
   }
   state.order = res.data;
+  console.log(state.order.items);
 });
 </script>
 
@@ -83,8 +84,15 @@ onMounted(async () => {
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, idx) in state.order.items">
+              <tr v-for="(item, idx) in state.order.items" :key="item.id">
                 <td>{{ idx + 1 }}</td>
+                <td>
+                  <img
+                    class="imgs"
+                    :src="`/pic/item/${item.imgPath}`"
+                    alt="테스트"
+                  />
+                </td>
                 <td>{{ item.name }}</td>
               </tr>
             </tbody>
@@ -107,6 +115,10 @@ onMounted(async () => {
       th {
         background: #f7f7f7;
       }
+      .imgs {
+        width: 150px;
+      }
+      background: #f7f7f7;
     }
   }
 }

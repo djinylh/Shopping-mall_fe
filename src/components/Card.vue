@@ -59,7 +59,7 @@ const put = async () => {
     <span
       class="img"
       :style="{
-        backgroundImage: `url('/pic/item/${props.item.imgPath}')`,
+        backgroundImage: `url('/pic/item/${props.item.id}/${props.item.imgPath}')`,
       }"
       :aria-label="`상품 사진(${props.item.name})`"
     ></span>

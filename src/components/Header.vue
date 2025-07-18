@@ -29,6 +29,7 @@ const logoutAccount = async () => {
         <div class="menus d-flex gap-3">
           <template v-if="account.state.loggedIn">
             <a @click="logoutAccount">로그아웃</a>
+            <RouterLink to="/addproduct">상품등록</RouterLink>
             <RouterLink to="/orders">주문내역</RouterLink>
             <RouterLink to="/cart">장바구니</RouterLink>
           </template>
